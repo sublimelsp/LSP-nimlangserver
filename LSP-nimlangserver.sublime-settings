@@ -1,0 +1,42 @@
+{
+	// The nimlangserver binary to use.
+    // if set to `""`, the server is auto installed and updated.
+    "binary": "nimlangserver",
+	"settings": {
+		// Configure how nimsuggest should be started. We don't want nimlangserver to
+		// start nimsuggest for each file and this configuration will allow configuring
+		// pair projectFile/fileRegex so that if one of the regexps in the list matches
+		// the current file then nimls will use root to start nimsuggest.
+		// In case there are no matches nimlangserver will try to guess the most
+		// suitable project root.
+		"nim.projectMapping": [],
+		"nim.workingDirectoryMapping": [],
+		// The request timeout in ms after which nimlangserver will restart the language server.
+		// If not specified the default is 2 minutes.
+		"nim.timeout": 120000,
+		// the path to the nimsuggest.
+		"nim.nimsuggestPath": "nimsuggest",
+		// check the file on the fly.
+		"nim.autoCheckFile": true,
+		// check the project after saving the file.
+		"nim.autoCheckProject": true,
+		// auto restart once in case of nimsuggest crash.
+		// Note that the server won't restart if there weren't any successful calls after the last restart.
+		"nim.autoRestart": true,
+		// Enable verbose logging of nimsuggest to use profile directory.
+		"nim.logNimsuggest": false,
+		// Enable inlay type hints.
+		"nim.inlayHints.typeHints.enable": true,
+		// Enable inlay parameter hints.
+		"nim.inlayHints.parameterHints.enable": true,
+		// Enable inlay hints for exceptions.
+		"nim.inlayHints.exceptionHints.enable": true,
+		// The string to use for exception hints. This string is displayed to the left of the symbol name.
+		"nim.inlayHints.exceptionHints.hintStringLeft": "🔔",
+		// The string to use for exception hints. This string is displayed to the right of the symbol name.
+        "nim.inlayHints.exceptionHints.hintStringRight": "",
+        // The verbosity of the Nim language server notifications.
+        "nim.notificationVerbosity": "info"
+	},
+	"selector": "source.nim",
+}

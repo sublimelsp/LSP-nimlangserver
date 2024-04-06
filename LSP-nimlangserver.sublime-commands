@@ -1,0 +1,10 @@
+[
+    {
+        "caption": "Preferences: LSP-nimlangserver Settings",
+        "command": "edit_settings",
+        "args": {
+            "base_file": "${packages}/LSP-nimlangserver/LSP-nimlangserver.sublime-settings",
+            "default": "// Settings in here override those in \"LSP-nimlangserver/LSP-nimlangserver.sublime-settings\"\n{\n\t$0\n}\n"
+        }
+    },
+]

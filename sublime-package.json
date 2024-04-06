@@ -1,0 +1,158 @@
+{
+  "contributions": {
+    "settings": [
+      {
+        "file_patterns": [
+          "/LSP-nimlangserver.sublime-settings"
+        ],
+        "schema": {
+          "$id": "sublime://settings/LSP-nimlangserver",
+          "allOf": [
+            {
+              "$ref": "sublime://settings/LSP-plugin-base"
+            },
+            {
+              "$ref": "sublime://settings/LSP-nimlangserver#/definitions/PluginConfig"
+            }
+          ],
+          "definitions": {
+            "PluginConfig": {
+              "properties": {
+                "binary": {
+                  "type": "string",
+                  "default": "nimlangserver",
+                  "markdownDescription": "The nimlangserver binary to use.\nIf set to `\"\"`, the server is automatically installed and updated."
+                },
+                "settings": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "nim.projectMapping": {
+                      "description": "Configure how nimsuggest should be started. We don't want nimlangserver to\nstart nimsuggest for each file and this configuration will allow configuring\npair projectFile/fileRegex so that if one of the regexps in the list matches\nthe current file then nimls will use root to start nimsuggest.\nIn case there are no matches nimlangserver will try to guess the most\nsuitable project root.",
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "fileRegex": {
+                            "type": "string",
+                            "description": "Source file regex."
+                          },
+                          "projectFile": {
+                            "type": "string",
+                            "description": "Project file path."
+                          }
+                        }
+                      }
+                    },
+                    "nim.workingDirectoryMapping": {
+                      "type": "array",
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "projectFile": {
+                            "type": "string",
+                            "description": "Project file path."
+                          },
+                          "directory": {
+                            "type": "string",
+                            "description": "Project directory."
+                          }
+                        }
+                      },
+                      "description": "🤷‍♂"
+                    },
+                    "nim.timeout": {
+                      "default": 120000,
+                      "description": "The request timeout in ms after which nimlangserver will restart the language server.\nIf not specified the default is 2 minutes.",
+                      "type": "number"
+                    },
+                    "nim.nimsuggestPath": {
+                      "default": "nimsuggest",
+                      "description": "The path to the nimsuggest.",
+                      "type": "string"
+                    },
+                    "nim.autoCheckFile": {
+                      "default": true,
+                      "description": "Check the file on the fly.",
+                      "type": "boolean"
+                    },
+                    "nim.autoCheckProject": {
+                      "default": true,
+                      "markdownDescription": "Check the project after saving the file.",
+                      "type": "boolean"
+                    },
+                    "nim.autoRestart": {
+                      "default": true,
+                      "description": "Auto restart once in case of nimsuggest crash.\nNote that the server won't restart if there weren't any successful calls after the last restart.",
+                      "type": "boolean"
+                    },
+                    "nim.logNimsuggest": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Enable verbose logging of nimsuggest to use profile directory."
+                    },
+                    "nim.inlayHints.typeHints.enable": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Enable inlay type hints."
+                    },
+                    "nim.inlayHints.parameterHints.enable": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Enable inlay parameter hints."
+                    },
+                    "nim.inlayHints.exceptionHints.enable": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Enable inlay hints for exceptions."
+                    },
+                    "nim.inlayHints.exceptionHints.hintStringLeft": {
+                      "type": "string",
+                      "default": "🔔",
+                      "description": "The string to use for exception hints. This string is displayed to the left of the symbol name."
+                    },
+                    "nim.inlayHints.exceptionHints.hintStringRight": {
+                      "type": "string",
+                      "default": "",
+                      "description": "The string to use for exception hints. This string is displayed to the right of the symbol name."
+                    },
+                    "nim.notificationVerbosity": {
+                      "type": "string",
+                      "default": "info",
+                      "enum": [
+                        "none",
+                        "error",
+                        "warning",
+                        "info"
+                      ],
+                      "description": "The verbosity of the Nim language server notifications."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "file_patterns": [
+          "/*.sublime-project"
+        ],
+        "schema": {
+          "properties": {
+            "settings": {
+              "properties": {
+                "LSP": {
+                  "properties": {
+                    "rust-analyzer": {
+                      "$ref": "sublime://settings/LSP-nimlangserver#/definitions/PluginConfig"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

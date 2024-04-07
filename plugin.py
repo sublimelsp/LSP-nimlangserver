@@ -185,7 +185,7 @@ class NimlangserverPlugin(AbstractPlugin):
         server_path = cls.server_path()
         if not server_path:
             raise ValueError("nimlangserver is currently not installed.")
-        configuration.command.append(server_path)
+        configuration.command = [server_path]
 
 
 def plugin_loaded() -> None:

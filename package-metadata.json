@@ -1,1 +1,0 @@
-{"version": "1.0.0", "dependencies": [], "platforms": ["*"], "sublime_text": ">=4070", "description": "Convenience package for the official Nim language server", "url": "https://github.com/sublimelsp/LSP-nimlangserver"}

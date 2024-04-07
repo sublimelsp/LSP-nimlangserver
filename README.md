@@ -2,6 +2,8 @@
 
 A helper package that manages the [nimlangserver](https://github.com/nim-lang/langserver) language server.
 
+![LSP Features](./images/LSP.png)
+
 ## Installation
 
 Install the following packages via Package Control:
@@ -47,6 +49,8 @@ The server binary is automatically downloaded to `$CACHE/Package Storage/LSP-nim
 ## Debugging
 
 The [Debugger](https://packagecontrol.io/packages/Debugger) package enables debugging Nim programs (among others). Some setup is required however.
+
+![Debugger](./images/debugger.png)
 
 #### Setting Up
 

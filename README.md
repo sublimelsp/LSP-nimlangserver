@@ -11,6 +11,7 @@ Install the following packages via Package Control:
 2. [LSP-nimlangserver](https://packagecontrol.io/packages/LSP-nimlangserver)
 3. [NimLime](https://packagecontrol.io/packages/NimLime)
 4. [Debugger](https://packagecontrol.io/packages/Debugger) for Debugging Nim programs.
+5. [Terminus](https://packagecontrol.io/packages/Terminus) for running debugger tasks.
 
 ## Configuration
 
@@ -57,6 +58,7 @@ The [Debugger](https://packagecontrol.io/packages/Debugger) package enables debu
 * Read the [README](https://github.com/daveleroy/SublimeDebugger?tab=readme-ov-file#sublime-debugger)
 * The adapter to install is lldb.
 * Example configurations for debugging the current file:
+
 ```js
 {
     // folders: [
@@ -66,8 +68,9 @@ The [Debugger](https://packagecontrol.io/packages/Debugger) package enables debu
     [
         {
             "name": "Launch",
-            "program": "${file_path}/${file_basename}",
+            "program": "${file_path}/${file_base_name}",
             "pre_debug_task": "Nim: compile for debugging",
+            // "preRunCommands": ["command script import --allow-reload \"<PATH_TO_NIM_INSTALLATION_DIR>/tools/debug/nimlldb.py\""] // improves values representation (but may be buggy).
             "args": [],
             "cwd": "${file_path}"
         },
@@ -82,6 +85,7 @@ The [Debugger](https://packagecontrol.io/packages/Debugger) package enables debu
     ]
 }
 ```
-* You may also define the task globally:
+
+* You may also define tasks and configurations globally:
     * Run `Preferences: Debugger Settings` from the command palette.
-    * Add the task to the `global_debugger_tasks` setting.
+    * Add the task or configuration to the `global_debugger_tasks` or the `global_debugger_configuration` settings respectively.

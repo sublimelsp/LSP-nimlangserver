@@ -9,7 +9,7 @@ A helper package that manages the [nimlangserver](https://github.com/nim-lang/la
 Install the following packages via Package Control:
 1. [LSP](https://packagecontrol.io/packages/LSP)
 2. [LSP-nimlangserver](https://packagecontrol.io/packages/LSP-nimlangserver)
-3. [NimLime](https://packagecontrol.io/packages/NimLime)
+3. [Nim](https://packagecontrol.io/packages/Nim) for syntax highlighting.
 4. [Debugger](https://packagecontrol.io/packages/Debugger) for Debugging Nim programs.
 5. [Terminus](https://packagecontrol.io/packages/Terminus) for running debugger tasks.
 

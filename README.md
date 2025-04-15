@@ -26,7 +26,7 @@ You can also have a project-specific configuration. Run the `Project: Edit Proje
     // ]
     "settings": {
         "LSP": {
-            "nimlangserver": {
+            "LSP-nimlangserver": {
                 "settings": {
                     //Setting-here
                 }

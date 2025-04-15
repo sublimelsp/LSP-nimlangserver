@@ -21,9 +21,9 @@ Update this single git tag to download a newer version.
 After changing this tag, go through the server settings again to see
 if any new server settings are added or old ones removed.
 """
-VERSION_STR = '.'.join(str(i) for i in VERSION)
+VERSION_STR = ".".join(str(i) for i in VERSION)
 SESSION_NAME = "nimlangserver"
-SETTINGS_FILENAME = 'LSP-nimlangserver.sublime-settings'
+SETTINGS_FILENAME = "LSP-nimlangserver.sublime-settings"
 # https://github.com/nim-lang/langserver/releases/download/v1.2.0/nimlangserver-1.2.0-windows-amd64.zip
 URL = "https://github.com/nim-lang/langserver/releases/download/v{tag}/nimlangserver-{tag}-{platform}-{arch}.{archive_type}"
 
@@ -38,26 +38,33 @@ def arch() -> str:
     else:
         raise RuntimeError("Unknown architecture: " + sublime.arch())
 
+
 def platform() -> str:
     return "macos" if sublime.platform() == "osx" else sublime.platform()
+
 
 def get_settings() -> sublime.Settings:
     return sublime.load_settings(SETTINGS_FILENAME)
 
+
 def save_settings() -> None:
     return sublime.save_settings(SETTINGS_FILENAME)
+
 
 def download_server(url: str, file: str) -> None:
     with urllib.request.urlopen(url) as response, open(file, "wb") as out_file:
         shutil.copyfileobj(response, out_file)
 
+
 def extract_server(archive_file: str, out_dir: str) -> None:
     if archive_file.endswith("zip"):
         import zipfile
+
         with zipfile.ZipFile(archive_file) as archive:
             archive.extractall(out_dir)
     else:
         import tarfile
+
         with tarfile.TarFile.open(archive_file) as archive:
             archive.extractall(out_dir)
 
@@ -70,7 +77,7 @@ class NimlangserverPlugin(AbstractPlugin):
     @classmethod
     def markdown_language_id_to_st_syntax_map(cls) -> Optional[MarkdownLangMap]:
         path = sublime.find_syntax_by_name("Nim")[0].path
-        return {"nim": (("nim",), (path[9:path.rfind('.')],))}
+        return {"nim": (("nim",), (path[9 : path.rfind(".")],))}
 
     @classmethod
     def basedir(cls) -> str:
@@ -79,11 +86,11 @@ class NimlangserverPlugin(AbstractPlugin):
 
     @classmethod
     def get_server_version(cls, path: str) -> Tuple[int, int, int]:
-        with subprocess.Popen([path, '-v'], stdout=subprocess.PIPE, shell=os.name=='nt') as process:
             stdout, _ = process.communicate(timeout=2)
+        with subprocess.Popen([path, "-v"], stdout=subprocess.PIPE, shell=os.name == "nt") as process:
 
             if process.returncode == 0:
-                v = [int(s) for s in stdout.split(b'.')]
+                v = [int(s) for s in stdout.split(b".")]
                 return (v[0], v[1], v[2])
             else:
                 return (0, 0, 0)
@@ -127,9 +134,8 @@ class NimlangserverPlugin(AbstractPlugin):
             else:
                 msg = "nimlangserver was not found in your path."
             ans = sublime.ok_cancel_dialog(
-                msg + " Would you like to auto-install it from Github ?",
-                "Yes",
-                "LSP-nimlangserver")
+                msg + " Would you like to auto-install it from Github ?", "Yes", "LSP-nimlangserver"
+            )
             if ans == sublime.DIALOG_YES:
                 get_settings().set("binary", "")
                 save_settings()
@@ -162,11 +168,13 @@ class NimlangserverPlugin(AbstractPlugin):
             raise
 
     @classmethod
-    def can_start(cls,
+    def can_start(
+        cls,
         window: sublime.Window,
         initiating_view: sublime.View,
         workspace_folders: List[WorkspaceFolder],
-        configuration: ClientConfig) -> Optional[str]:
+        configuration: ClientConfig,
+    ) -> Optional[str]:
         binary_setting = get_settings().get("binary")
         if binary_setting:
             path = cls.system_server_path(binary_setting)
@@ -177,11 +185,13 @@ class NimlangserverPlugin(AbstractPlugin):
             return "Nim is not in PATH."
 
     @classmethod
-    def on_pre_start(cls,
-         window: sublime.Window,
-         initiating_view: sublime.View,
-         workspace_folders: List[WorkspaceFolder],
-         configuration: ClientConfig) -> Optional[str]:
+    def on_pre_start(
+        cls,
+        window: sublime.Window,
+        initiating_view: sublime.View,
+        workspace_folders: List[WorkspaceFolder],
+        configuration: ClientConfig,
+    ) -> Optional[str]:
         server_path = cls.server_path()
         if not server_path:
             raise ValueError("nimlangserver is currently not installed.")

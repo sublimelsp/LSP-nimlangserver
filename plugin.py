@@ -21,7 +21,6 @@ Update this single git tag to download a newer version.
 After changing this tag, go through the server settings again to see
 if any new server settings are added or old ones removed.
 """
-VERSION_STR = ".".join(str(i) for i in VERSION)
 SESSION_NAME = "nimlangserver"
 SETTINGS_FILENAME = "LSP-nimlangserver.sublime-settings"
 # https://github.com/nim-lang/langserver/releases/download/v1.2.0/nimlangserver-1.2.0-windows-amd64.zip
@@ -82,7 +81,7 @@ class NimlangserverPlugin(AbstractPlugin):
     @classmethod
     def basedir(cls) -> str:
         """${storage_path}/LSP-nimlangserver"""
-        return os.path.join(cls.storage_path(), __package__)
+        return os.path.join(cls.storage_path(), __package__ or "")
 
     @classmethod
     def get_server_version(cls, path: str) -> Tuple[int, int, int]:
@@ -114,7 +113,7 @@ class NimlangserverPlugin(AbstractPlugin):
     def server_path(cls) -> Optional[str]:
         """The command to start the server."""
         binary_setting = get_settings().get("binary")
-        if binary_setting:
+        if binary_setting and isinstance(binary_setting, str):
             return cls.system_server_path(binary_setting)
         else:
             return cls.managed_server_path()
@@ -127,7 +126,7 @@ class NimlangserverPlugin(AbstractPlugin):
     @classmethod
     def install_or_update(cls) -> None:
         binary_setting = get_settings().get("binary")
-        if binary_setting:
+        if binary_setting and isinstance(binary_setting, str):
             path = cls.system_server_path(binary_setting)
             if path:
                 msg = "A newer version of nimlangserver exists."
@@ -148,7 +147,8 @@ class NimlangserverPlugin(AbstractPlugin):
 
             archive_type = "tar.gz" if sublime.platform() == "linux" else "zip"
             archive_file = os.path.join(cls.basedir(), "nimlangserver." + archive_type)
-            url = URL.format(tag=VERSION_STR, arch=arch(), platform=platform(), archive_type=archive_type)
+            version_str = ".".join(str(i) for i in VERSION)
+            url = URL.format(tag=version_str, arch=arch(), platform=platform(), archive_type=archive_type)
 
             sublime.status_message(SESSION_NAME + ": Downloading server...")
             download_server(url, archive_file)
@@ -176,7 +176,7 @@ class NimlangserverPlugin(AbstractPlugin):
         configuration: ClientConfig,
     ) -> Optional[str]:
         binary_setting = get_settings().get("binary")
-        if binary_setting:
+        if binary_setting and isinstance(binary_setting, str):
             path = cls.system_server_path(binary_setting)
             if path and cls.get_server_version(path) < (1, 2, 0):
                 return "The minimum required nimlangserver version (1.2.0) is not satisfied."

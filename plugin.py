@@ -85,8 +85,8 @@ class NimlangserverPlugin(AbstractPlugin):
 
     @classmethod
     def get_server_version(cls, path: str) -> Tuple[int, int, int]:
-            stdout, _ = process.communicate(timeout=2)
         with subprocess.Popen([path, "-v"], stdout=subprocess.PIPE, shell=os.name == "nt") as process:
+            stdout, _ = process.communicate(timeout=5)
 
             if process.returncode == 0:
                 v = [int(s) for s in stdout.split(b".")]

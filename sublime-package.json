@@ -125,7 +125,42 @@
                         "info"
                       ],
                       "description": "The verbosity of the Nim language server notifications."
-                    }
+                    },
+                    "nim.checkOnSave": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Check the file on save."
+                    },
+                    "nim.formatOnSave": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Format the file on save. Requires nph for formatting."
+                    },
+                    "nim.useNimCheck": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Use nim check instead of nimsuggest for linting. Controls lsp backend behavior."
+                    },
+                    "nim.nimExpandArc": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Expand ARC on proc definition hover."
+                    },
+                    "nim.nimExpandMacro": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Expand macro calls on hover."
+                    },
+                    "nim.maxNimsuggestProcesses": {
+                      "type": "number",
+                      "default": 0,
+                      "description": "The maximum number of nimsuggest processes to keep alive in the lsp. 0 means unlimited."
+                    },
+                    "nim.nimsuggestIdleTimeout": {
+                      "type": "number",
+                      "default": 120000,
+                      "description": "The timeout in ms after which an idle nimsuggest will be stopped. If not specified the default is 120 seconds."
+                    },
                   }
                 }
               }

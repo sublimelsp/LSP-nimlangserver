@@ -36,7 +36,21 @@
 		// The string to use for exception hints. This string is displayed to the right of the symbol name.
 		"nim.inlayHints.exceptionHints.hintStringRight": "",
 		// The verbosity of the Nim language server notifications.
-		"nim.notificationVerbosity": "info"
+		"nim.notificationVerbosity": "info",
+		// Check the file on save.
+		"nim.checkOnSave": true,
+		// Format the file on save. Requires nph for formatting.
+		"nim.formatOnSave": false,
+		// Use nim check instead of nimsuggest for linting. Controls lsp backend behavior.
+		"nim.useNimCheck": false,
+		// Expand ARC on proc definition hover.
+		"nim.nimExpandArc": false,
+		// Expand macro calls on hover.
+		"nim.nimExpandMacro": false,
+		// The maximum number of nimsuggest processes to keep alive in the lsp. 0 means unlimited.
+		"nim.maxNimsuggestProcesses": 0,
+		// The timeout in ms after which an idle nimsuggest will be stopped. If not specified the default is 120 seconds.
+		"nim.nimsuggestIdleTimeout": 120000,
 	},
 	"selector": "source.nim",
 }

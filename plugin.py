@@ -22,8 +22,8 @@ if any new server settings are added or old ones removed.
 """
 SESSION_NAME = "nimlangserver"
 SETTINGS_FILENAME = "LSP-nimlangserver.sublime-settings"
-# https://github.com/nim-lang/langserver/releases/download/v1.2.0/nimlangserver-1.2.0-windows-amd64.zip
-URL = "https://github.com/nim-lang/langserver/releases/download/v{tag}/nimlangserver-{tag}-{platform}-{arch}.{archive_type}"
+# https://github.com/nim-lang/langserver/releases/download/v1.10.0/nimlangserver-windows-amd64.zip
+URL = "https://github.com/nim-lang/langserver/releases/download/v{tag}/nimlangserver-{platform}-{arch}.{archive_type}"
 
 
 def arch() -> str:

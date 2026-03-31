@@ -1,18 +1,20 @@
-import os
-import shutil
-import stat
-import subprocess
-import urllib.request
+from __future__ import annotations
 
-import sublime
 from LSP.plugin import AbstractPlugin
 from LSP.plugin import register_plugin
 from LSP.plugin import unregister_plugin
 from LSP.plugin.core.types import ClientConfig
-from LSP.plugin.core.typing import List, Optional, Tuple
+from LSP.plugin.core.typing import List
+from LSP.plugin.core.typing import Optional
+from LSP.plugin.core.typing import Tuple
 from LSP.plugin.core.views import MarkdownLangMap
 from LSP.plugin.core.workspace import WorkspaceFolder
-
+import os
+import shutil
+import stat
+import sublime
+import subprocess
+import urllib.request
 
 VERSION = (1, 10, 0)
 """

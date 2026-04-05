@@ -1,5 +1,8 @@
+[tool.pyright]
+pythonVersion = "3.8"
+
 [tool.ruff]
-line-length = 120
+line-length = 110
 target-version = "py38"
 
 [tool.ruff.lint]
@@ -8,14 +11,8 @@ preview = true
 select = ["F401", "I"]
 
 [tool.ruff.lint.isort]
-case-sensitive = false
+case-sensitive = true
+combine-as-imports = true
 force-single-line = true
-from-first = true
-no-sections = true
 order-by-type = false
 required-imports = ["from __future__ import annotations"]
-
-
-[tool.pyright]
-pythonVersion = "3.8"
-

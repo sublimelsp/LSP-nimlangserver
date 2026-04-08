@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 import shutil
 import stat
@@ -9,10 +11,8 @@ from LSP.plugin import AbstractPlugin
 from LSP.plugin import register_plugin
 from LSP.plugin import unregister_plugin
 from LSP.plugin.core.types import ClientConfig
-from LSP.plugin.core.typing import List, Optional, Tuple
 from LSP.plugin.core.views import MarkdownLangMap
 from LSP.plugin.core.workspace import WorkspaceFolder
-
 
 VERSION = (1, 10, 0)
 """
@@ -73,7 +73,7 @@ class NimlangserverPlugin(AbstractPlugin):
         return SESSION_NAME
 
     @classmethod
-    def markdown_language_id_to_st_syntax_map(cls) -> Optional[MarkdownLangMap]:
+    def markdown_language_id_to_st_syntax_map(cls) -> MarkdownLangMap | None:
         path = sublime.find_syntax_by_name("Nim")[0].path
         return {"nim": (("nim",), (path[9 : path.rfind(".")],))}
 
@@ -83,7 +83,7 @@ class NimlangserverPlugin(AbstractPlugin):
         return os.path.join(cls.storage_path(), __package__ or "")
 
     @classmethod
-    def get_server_version(cls, path: str) -> Tuple[int, int, int]:
+    def get_server_version(cls, path: str) -> tuple[int, int, int]:
         with subprocess.Popen([path, "-v"], stdout=subprocess.PIPE, shell=os.name == "nt") as process:
             stdout, _ = process.communicate(timeout=5)
 
@@ -94,7 +94,7 @@ class NimlangserverPlugin(AbstractPlugin):
                 return (0, 0, 0)
 
     @classmethod
-    def managed_server_path(cls) -> Optional[str]:
+    def managed_server_path(cls) -> str | None:
         binary_name = "nimlangserver.exe" if sublime.platform() == "windows" else "nimlangserver"
         path = os.path.join(cls.basedir(), binary_name)
         if os.path.exists(path):
@@ -102,14 +102,14 @@ class NimlangserverPlugin(AbstractPlugin):
         return None
 
     @classmethod
-    def system_server_path(cls, binary: str) -> Optional[str]:
+    def system_server_path(cls, binary: str) -> str | None:
         binary_path = shutil.which(binary) or binary
         if not os.path.isfile(binary_path):
             return None
         return binary_path
 
     @classmethod
-    def server_path(cls) -> Optional[str]:
+    def server_path(cls) -> str | None:
         """The command to start the server."""
         binary_setting = get_settings().get("binary")
         if binary_setting and isinstance(binary_setting, str):
@@ -171,9 +171,9 @@ class NimlangserverPlugin(AbstractPlugin):
         cls,
         window: sublime.Window,
         initiating_view: sublime.View,
-        workspace_folders: List[WorkspaceFolder],
+        workspace_folders: list[WorkspaceFolder],
         configuration: ClientConfig,
-    ) -> Optional[str]:
+    ) -> str | None:
         binary_setting = get_settings().get("binary")
         if binary_setting and isinstance(binary_setting, str):
             path = cls.system_server_path(binary_setting)
@@ -188,9 +188,9 @@ class NimlangserverPlugin(AbstractPlugin):
         cls,
         window: sublime.Window,
         initiating_view: sublime.View,
-        workspace_folders: List[WorkspaceFolder],
+        workspace_folders: list[WorkspaceFolder],
         configuration: ClientConfig,
-    ) -> Optional[str]:
+    ) -> str | None:
         server_path = cls.server_path()
         if not server_path:
             raise ValueError("nimlangserver is currently not installed.")

@@ -14,7 +14,7 @@ from LSP.plugin.core.types import ClientConfig
 from LSP.plugin.core.views import MarkdownLangMap
 from LSP.plugin.core.workspace import WorkspaceFolder
 
-VERSION = (1, 10, 0)
+VERSION = (1, 14, 0)
 """
 Update this single git tag to download a newer version.
 After changing this tag, go through the server settings again to see

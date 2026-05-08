@@ -14,7 +14,7 @@ from LSP.plugin import WorkspaceFolder
 from LSP.plugin import register_plugin
 from LSP.plugin import unregister_plugin
 
-VERSION = "1.10.0"
+VERSION = "1.14.0"
 """
 Update this single git tag to download a newer version.
 After changing this tag, go through the server settings again to see

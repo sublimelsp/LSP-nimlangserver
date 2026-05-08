@@ -8,13 +8,13 @@ import urllib.request
 
 import sublime
 from LSP.plugin import AbstractPlugin
+from LSP.plugin import ClientConfig
+from LSP.plugin import MarkdownLangMap
+from LSP.plugin import WorkspaceFolder
 from LSP.plugin import register_plugin
 from LSP.plugin import unregister_plugin
-from LSP.plugin.core.types import ClientConfig
-from LSP.plugin.core.views import MarkdownLangMap
-from LSP.plugin.core.workspace import WorkspaceFolder
 
-VERSION = (1, 10, 0)
+VERSION = "1.10.0"
 """
 Update this single git tag to download a newer version.
 After changing this tag, go through the server settings again to see
@@ -120,7 +120,8 @@ class NimlangserverPlugin(AbstractPlugin):
     @classmethod
     def needs_update_or_installation(cls) -> bool:
         path = cls.server_path()
-        return not path or cls.get_server_version(path) < VERSION
+        version_tuple = tuple(int(n) for n in VERSION.split('.'))
+        return not path or cls.get_server_version(path) < version_tuple
 
     @classmethod
     def install_or_update(cls) -> None:
@@ -146,8 +147,7 @@ class NimlangserverPlugin(AbstractPlugin):
 
             archive_type = "tar.gz" if sublime.platform() == "linux" else "zip"
             archive_file = os.path.join(cls.basedir(), "nimlangserver." + archive_type)
-            version_str = ".".join(str(i) for i in VERSION)
-            url = URL.format(tag=version_str, arch=arch(), platform=platform(), archive_type=archive_type)
+            url = URL.format(tag=VERSION, arch=arch(), platform=platform(), archive_type=archive_type)
 
             sublime.status_message(SESSION_NAME + ": Downloading server...")
             download_server(url, archive_file)

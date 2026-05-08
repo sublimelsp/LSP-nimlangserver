@@ -1,0 +1,20 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>sublimelsp/renovate-preset"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^plugin\\.py$/"
+      ],
+      "matchStrings": [
+        "VERSION = \"(?<currentValue>.+?)\""
+      ],
+      "extractVersionTemplate": "v?(?<version>[\\d\\.]*)$",
+      "datasourceTemplate": "github-releases",
+      "packageNameTemplate": "nim-lang/langserver"
+    }
+  ]
+}

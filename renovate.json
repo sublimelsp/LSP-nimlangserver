@@ -14,7 +14,7 @@
       ],
       "extractVersionTemplate": "v?(?<version>[\\d\\.]*)$",
       "datasourceTemplate": "github-releases",
-      "packageNameTemplate": "https://github.com/nim-lang"
+      "packageNameTemplate": "nim-lang/langserver"
     }
   ]
 }

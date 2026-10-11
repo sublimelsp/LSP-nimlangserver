@@ -51,6 +51,8 @@
 		"nim.maxNimsuggestProcesses": 0,
 		// The timeout in ms after which an idle nimsuggest will be stopped. If not specified the default is 120 seconds.
 		"nim.nimsuggestIdleTimeout": 120000,
+		// The nim formatter in use, either "nph" or "nimpretty".
+		"nim.formatter": "nph"
 	},
 	"selector": "source.nim",
 }

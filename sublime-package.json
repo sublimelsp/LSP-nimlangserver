@@ -161,6 +161,15 @@
                       "default": 120000,
                       "description": "The timeout in ms after which an idle nimsuggest will be stopped. If not specified the default is 120 seconds."
                     },
+                    "nim.formatter": {
+                      "type": "string",
+                      "default": "nph",
+                      "enum": [
+                        "nph",
+                        "nimpretty",
+                      ],
+                      "description": "The nim formatter in use, either `nph` or `nimpretty`. Defaults to nph."
+                    },
                   }
                 }
               }

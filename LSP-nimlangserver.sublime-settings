@@ -53,4 +53,8 @@
 		"nim.nimsuggestIdleTimeout": 120000,
 	},
 	"selector": "source.nim",
+	// Syntax highlighting of Nim code blocks in popups.
+	"markdown_language_map": {
+		"nim": [["nim"], ["scope:source.nim"]],
+	},
 }

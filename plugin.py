@@ -7,12 +7,9 @@ import subprocess
 import urllib.request
 
 import sublime
-from LSP.plugin import AbstractPlugin
-from LSP.plugin import ClientConfig
-from LSP.plugin import MarkdownLangMap
-from LSP.plugin import WorkspaceFolder
-from LSP.plugin import register_plugin
-from LSP.plugin import unregister_plugin
+from LSP.plugin import LspPlugin
+from LSP.plugin import OnPreStartContext
+from LSP.plugin import PluginStartError
 
 VERSION = "1.16.0"
 """
@@ -20,7 +17,6 @@ Update this single git tag to download a newer version.
 After changing this tag, go through the server settings again to see
 if any new server settings are added or old ones removed.
 """
-SESSION_NAME = "nimlangserver"
 SETTINGS_FILENAME = "LSP-nimlangserver.sublime-settings"
 # https://github.com/nim-lang/langserver/releases/download/v1.10.0/nimlangserver-windows-amd64.zip
 URL = "https://github.com/nim-lang/langserver/releases/download/v{tag}/nimlangserver-{platform}-{arch}.{archive_type}"
@@ -67,20 +63,28 @@ def extract_server(archive_file: str, out_dir: str) -> None:
             archive.extractall(out_dir)
 
 
-class NimlangserverPlugin(AbstractPlugin):
+class NimlangserverPlugin(LspPlugin):
     @classmethod
-    def name(cls) -> str:
-        return SESSION_NAME
-
-    @classmethod
-    def markdown_language_id_to_st_syntax_map(cls) -> MarkdownLangMap | None:
-        path = sublime.find_syntax_by_name("Nim")[0].path
-        return {"nim": (("nim",), (path[9 : path.rfind(".")],))}
+    def on_pre_start_async(cls, context: OnPreStartContext) -> None:
+        if cls.needs_update_or_installation():
+            cls.install_or_update()
+        binary_setting = get_settings().get("binary")
+        if binary_setting and isinstance(binary_setting, str):
+            path = cls.system_server_path(binary_setting)
+            if path and cls.get_server_version(path) < (1, 2, 0):
+                raise PluginStartError("The minimum required nimlangserver version (1.2.0) is not satisfied.")
+        path = shutil.which("nim")
+        if path is None or not os.path.isfile(path):
+            raise PluginStartError("Nim is not in PATH.")
+        server_path = cls.server_path()
+        if not server_path:
+            raise PluginStartError("nimlangserver is currently not installed.")
+        context.configuration.command = [server_path]
 
     @classmethod
     def basedir(cls) -> str:
         """${storage_path}/LSP-nimlangserver"""
-        return os.path.join(cls.storage_path(), __package__ or "")
+        return str(cls.plugin_storage_path)
 
     @classmethod
     def get_server_version(cls, path: str) -> tuple[int, int, int]:
@@ -149,10 +153,10 @@ class NimlangserverPlugin(AbstractPlugin):
             archive_file = os.path.join(cls.basedir(), "nimlangserver." + archive_type)
             url = URL.format(tag=VERSION, arch=arch(), platform=platform(), archive_type=archive_type)
 
-            sublime.status_message(SESSION_NAME + ": Downloading server...")
+            sublime.status_message(cls.name + ": Downloading server...")
             download_server(url, archive_file)
 
-            sublime.status_message(SESSION_NAME + ": Extracting server...")
+            sublime.status_message(cls.name + ": Extracting server...")
             extract_server(archive_file, cls.basedir())
 
             os.remove(archive_file)
@@ -166,40 +170,10 @@ class NimlangserverPlugin(AbstractPlugin):
             shutil.rmtree(cls.basedir(), ignore_errors=True)
             raise
 
-    @classmethod
-    def can_start(
-        cls,
-        window: sublime.Window,
-        initiating_view: sublime.View,
-        workspace_folders: list[WorkspaceFolder],
-        configuration: ClientConfig,
-    ) -> str | None:
-        binary_setting = get_settings().get("binary")
-        if binary_setting and isinstance(binary_setting, str):
-            path = cls.system_server_path(binary_setting)
-            if path and cls.get_server_version(path) < (1, 2, 0):
-                return "The minimum required nimlangserver version (1.2.0) is not satisfied."
-        path = shutil.which("nim")
-        if path is None or not os.path.isfile(path):
-            return "Nim is not in PATH."
-
-    @classmethod
-    def on_pre_start(
-        cls,
-        window: sublime.Window,
-        initiating_view: sublime.View,
-        workspace_folders: list[WorkspaceFolder],
-        configuration: ClientConfig,
-    ) -> str | None:
-        server_path = cls.server_path()
-        if not server_path:
-            raise ValueError("nimlangserver is currently not installed.")
-        configuration.command = [server_path]
-
 
 def plugin_loaded() -> None:
-    register_plugin(NimlangserverPlugin)
+    NimlangserverPlugin.register()
 
 
 def plugin_unloaded() -> None:
-    unregister_plugin(NimlangserverPlugin)
+    NimlangserverPlugin.unregister()

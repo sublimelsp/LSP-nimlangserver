@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/sublimelsp/lsp_smoke_test/v1/smoke.schema.json
+file: sample.nim
+# The session name until the package is migrated to LspPlugin.
+server: nimlangserver
+expected_diagnostics:
+  message: undeclared identifier
+# Download nimlangserver instead of looking for it on the PATH.
+settings:
+  LSP-nimlangserver.sublime-settings:
+    binary: ''
+# Starting the server includes downloading it.
+diagnostics_timeout: 240

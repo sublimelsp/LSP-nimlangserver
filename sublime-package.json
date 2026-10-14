@@ -66,8 +66,8 @@
                       "type": "number"
                     },
                     "nim.nimsuggestPath": {
-                      "default": "nimsuggest",
-                      "description": "The path to the nimsuggest.",
+                      "default": "",
+                      "description": "The path to the nimsuggest. If empty, nimsuggest and nim are looked up on the PATH.",
                       "type": "string"
                     },
                     "nim.autoCheckFile": {

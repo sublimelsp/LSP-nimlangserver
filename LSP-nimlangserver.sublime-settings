@@ -14,8 +14,8 @@
 		// The request timeout in ms after which nimlangserver will restart the language server.
 		// If not specified the default is 2 minutes.
 		"nim.timeout": 120000,
-		// the path to the nimsuggest.
-		"nim.nimsuggestPath": "nimsuggest",
+		// the path to the nimsuggest. If empty, nimsuggest and nim are looked up on the PATH.
+		"nim.nimsuggestPath": "",
 		// check the file on the fly.
 		"nim.autoCheckFile": true,
 		// check the project after saving the file.

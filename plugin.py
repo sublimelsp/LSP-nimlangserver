@@ -12,7 +12,7 @@ from LSP.plugin import LspPlugin
 from LSP.plugin import OnPreStartContext
 from LSP.plugin import PluginStartError
 
-VERSION = "1.16.0"
+VERSION = "1.18.0"
 """
 Update this single git tag to download a newer version.
 After changing this tag, go through the server settings again to see

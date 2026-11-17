@@ -1,9 +1,10 @@
 # AGENTS.md
 
 Sublime Text LSP client that manages the [nimlangserver](https://github.com/nim-lang/langserver) binary.
-No build step and no Python dependencies: `plugin.py` runs inside Sublime Text's embedded Python 3.14 plugin
-host and imports `sublime` and `LSP.plugin` from packages that only exist at runtime (the legacy Python 3.3
-host is disabled).
+No build step and no Python dependencies: `plugin.py` runs inside Sublime Text's embedded Python plugin host
+(Python 3.14 on Build 4213+, Python 3.8 on older builds; the legacy Python 3.3 host is disabled) and imports
+`sublime` and `LSP.plugin` from packages that only exist at runtime. Keep the runtime code Python
+3.8-compatible until the package entry in `sublimelsp/repository` requires Build 4213+.
 
 Reference checkouts, if present next to this repo:
 - `../LSP` (sublimelsp/LSP) — provides the `LSP.plugin` API. Verify imports (`LspPlugin`, `ClientConfig`,
@@ -29,8 +30,8 @@ Reference checkouts, if present next to this repo:
 ## Verification
 
 - Lint: `ruff check .` — config in `pyproject.toml`: Python 3.14, 110 columns, preview rules, single-line
-  sorted imports. The isort config requires `from __future__ import annotations` in every module (style
-  rule, not needed at runtime on 3.14).
+  sorted imports. The isort config requires `from __future__ import annotations` in every module; keep it
+  while the package still supports Python 3.8 builds.
 - Typecheck: `pyright` — config in `pyproject.toml`, but expect unresolved-import errors for `sublime` and
   `LSP.plugin` (no stubs in this repo); don't chase them.
 - Neither ruff nor pyright runs in CI; there is no Python test suite.
@@ -44,6 +45,9 @@ Reference checkouts, if present next to this repo:
 
 ## Gotchas
 
+- The package entry in `sublimelsp/repository` declares `sublime_text: ">=4070"`, so builds with Python 3.8
+  can still install this package. Don't use Python 3.9+ syntax/APIs or remove the
+  `from __future__ import annotations` imports until that entry is bumped to `>=4213`.
 - `VERSION` in `plugin.py` is the nimlangserver release tag to download; Renovate bumps it via the custom
   manager in `renovate.json` and does not touch settings. For every bump, diff the released `NlsConfig`
   fields and default values against `LSP-nimlangserver.sublime-settings` and `sublime-package.json` and

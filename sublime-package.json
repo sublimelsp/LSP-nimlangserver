@@ -62,7 +62,7 @@
                     },
                     "nim.timeout": {
                       "default": 120000,
-                      "description": "The request timeout in ms after which nimlangserver will restart the language server.\nIf not specified the default is 2 minutes.",
+                      "markdownDescription": "The timeout in ms for `nim.useNimTrack` requests.\nIf not specified the default is 2 minutes.",
                       "type": "number"
                     },
                     "nim.nimsuggestPath": {
@@ -71,18 +71,13 @@
                       "type": "string"
                     },
                     "nim.autoCheckFile": {
-                      "default": true,
+                      "default": false,
                       "description": "Check the file on the fly.",
                       "type": "boolean"
                     },
                     "nim.autoCheckProject": {
                       "default": true,
-                      "markdownDescription": "Check the project after saving the file.",
-                      "type": "boolean"
-                    },
-                    "nim.autoRestart": {
-                      "default": true,
-                      "description": "Auto restart once in case of nimsuggest crash.\nNote that the server won't restart if there weren't any successful calls after the last restart.",
+                      "description": "Enable project checks.",
                       "type": "boolean"
                     },
                     "nim.logNimsuggest": {
@@ -102,8 +97,8 @@
                     },
                     "nim.inlayHints.exceptionHints.enable": {
                       "type": "boolean",
-                      "default": true,
-                      "description": "Enable inlay hints for exceptions."
+                      "default": false,
+                      "description": "Enable inlay hints for exceptions. Disabled by default because enabling them significantly increases the compile time."
                     },
                     "nim.inlayHints.exceptionHints.hintStringLeft": {
                       "type": "string",
@@ -129,7 +124,7 @@
                     "nim.checkOnSave": {
                       "type": "boolean",
                       "default": true,
-                      "description": "Check the file on save."
+                      "markdownDescription": "Check the project on save (requires `nim.autoCheckProject`)."
                     },
                     "nim.formatOnSave": {
                       "type": "boolean",
@@ -160,6 +155,21 @@
                       "type": "number",
                       "default": 120000,
                       "description": "The timeout in ms after which an idle nimsuggest will be stopped. If not specified the default is 120 seconds."
+                    },
+                    "nim.nimsuggestTimeout": {
+                      "type": "number",
+                      "default": 60000,
+                      "description": "The timeout in ms for the nimsuggest startup + initial compilation. If not specified the default is 60 seconds."
+                    },
+                    "nim.nimsuggestMaxMemory": {
+                      "type": "number",
+                      "default": 4000,
+                      "markdownDescription": "Memory cap per nimsuggest process in MB. nimsuggest quits when the value is reached. `0` means unlimited. Default: nimsuggest's own default (4000 MB). Requires a nimsuggest advertising the `maxMemory` capability; ignored otherwise."
+                    },
+                    "nim.useNimTrack": {
+                      "type": "boolean",
+                      "default": false,
+                      "markdownDescription": "Use `nim track` for goto definition and find usages."
                     },
                   }
                 }

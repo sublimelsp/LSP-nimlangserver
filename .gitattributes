@@ -1,6 +1,7 @@
 /.gitattributes export-ignore
 /.github/ export-ignore
 /.gitignore export-ignore
+/AGENTS.md export-ignore
 images/ export-ignore
 /pyproject.toml export-ignore
 /renovate.json export-ignore

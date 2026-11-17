@@ -6,3 +6,6 @@ expected_diagnostics:
 settings:
   LSP-nimlangserver.sublime-settings:
     binary: ''
+    # v1.18.0 disables on-the-fly checks by default; enable them for diagnostics on open.
+    settings:
+      nim.autoCheckFile: true

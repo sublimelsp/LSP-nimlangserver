@@ -1,10 +1,10 @@
 [tool.pyright]
-pythonVersion = "3.14"
+pythonVersion = "3.8"
 typeCheckingMode = "standard"
 
 [tool.ruff]
 line-length = 110
-target-version = "py314"
+target-version = "py38"
 
 [tool.ruff.lint]
 # Enable preview rules.

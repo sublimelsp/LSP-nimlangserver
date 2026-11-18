@@ -29,7 +29,7 @@ Reference checkouts, if present next to this repo:
 
 ## Verification
 
-- Lint: `ruff check .` — config in `pyproject.toml`: Python 3.14, 110 columns, preview rules, single-line
+- Lint: `ruff check .` — config in `pyproject.toml`: Python 3.8, 110 columns, preview rules, single-line
   sorted imports. The isort config requires `from __future__ import annotations` in every module; keep it
   while the package still supports Python 3.8 builds.
 - Typecheck: `pyright` — config in `pyproject.toml`, but expect unresolved-import errors for `sublime` and
